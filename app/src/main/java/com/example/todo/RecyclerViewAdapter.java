@@ -208,6 +208,10 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
         return mData.size();
     }
 
+    public void reload()
+    {
+        notifyDataSetChanged();
+    }
     public void deleteTask(final String Taskid, final int position, final View v)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_TASK_URL, new Response.Listener<String>() {

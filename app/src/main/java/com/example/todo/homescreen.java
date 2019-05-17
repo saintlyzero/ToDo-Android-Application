@@ -1,5 +1,8 @@
 package com.example.todo;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +12,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.CheckBox;
@@ -56,14 +62,18 @@ public class homescreen extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-
         Bundle bundle = getIntent().getExtras();
         final String username = bundle.getString("username");
 
-        displayTask(GET_ALL_TASK_URL,username);
+        RecyclerView myrv = findViewById(R.id.recyclerview_id1);
+        final RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(homescreen.this,lstTask);
+        myrv.setLayoutManager(new GridLayoutManager(homescreen.this,2));
+        myrv.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+        myrv.setAdapter(myAdapter);
+
+        displayTask(GET_ALL_TASK_URL,username,myAdapter);
         initMainActivityControls();
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +101,8 @@ public class homescreen extends AppCompatActivity {
                         String TaskStatus = "0";
                         if(status.isChecked())
                             TaskStatus = "1";
+                        if(!status.isChecked())
+                            TaskStatus = "0";
 
                         if(TaskName.length()>=1)
                         {
@@ -102,8 +114,14 @@ public class homescreen extends AppCompatActivity {
                                     if(response!=null){
                                         lstTask.add(new Task(TaskName,TaskDescription, finalTaskStatus,response));
 
+                                        // TODO: notifyDataSetChanged();
+
                                         Snackbar.make(view, "Added Task", Snackbar.LENGTH_LONG)
                                                 .setAction("Action", null).show();
+
+                                        myAdapter.notifyDataSetChanged();
+
+
                                     }
                                     else
                                     {
@@ -179,7 +197,7 @@ public class homescreen extends AppCompatActivity {
 
     }
 
-   void displayTask(String GET_ALL_TASK_URL, final String username)
+   void displayTask(String GET_ALL_TASK_URL, final String username, final RecyclerViewAdapter myAdapter )
    {
        StringRequest stringRequest = new StringRequest(Request.Method.POST, GET_ALL_TASK_URL, new Response.Listener<String>() {
            @Override
@@ -203,11 +221,17 @@ public class homescreen extends AppCompatActivity {
                    Toast.makeText(homescreen.this, e.getMessage(), Toast.LENGTH_LONG).show();
                }
 
-               RecyclerView myrv = findViewById(R.id.recyclerview_id1);
+               //TODO :  *******************************************
+
+              /* RecyclerView myrv = findViewById(R.id.recyclerview_id1);
                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(homescreen.this,lstTask);
                myrv.setLayoutManager(new GridLayoutManager(homescreen.this,2));
                myrv.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
-               myrv.setAdapter(myAdapter);
+               myrv.setAdapter(myAdapter);*/
+
+               myAdapter.notifyDataSetChanged();
+
+
 
            }
        },
@@ -229,5 +253,31 @@ public class homescreen extends AppCompatActivity {
 
 
    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.logout:
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(homescreen.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
