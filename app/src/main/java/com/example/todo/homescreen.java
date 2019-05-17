@@ -53,6 +53,8 @@ public class homescreen extends AppCompatActivity {
     final int spacing = 40; // 40px
     final boolean includeEdge = true;
 
+    private ImageView empty;
+
     final String ADD_TASK_URL = "http://192.168.31.122:80/todo/addTask.php";
     final String GET_ALL_TASK_URL = "http://192.168.31.122:80/todo/getTask.php";
     @Override
@@ -71,8 +73,11 @@ public class homescreen extends AppCompatActivity {
         myrv.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
         myrv.setAdapter(myAdapter);
 
+        empty = findViewById(R.id.imageView4);
+
         displayTask(GET_ALL_TASK_URL,username,myAdapter);
         initMainActivityControls();
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +119,17 @@ public class homescreen extends AppCompatActivity {
                                     if(response!=null){
                                         lstTask.add(new Task(TaskName,TaskDescription, finalTaskStatus,response));
 
-                                        // TODO: notifyDataSetChanged();
+
 
                                         Snackbar.make(view, "Added Task", Snackbar.LENGTH_LONG)
                                                 .setAction("Action", null).show();
 
+
+                                            empty.setVisibility(View.GONE);
+
                                         myAdapter.notifyDataSetChanged();
+
+
 
 
                                     }
@@ -215,6 +225,8 @@ public class homescreen extends AppCompatActivity {
                        String status = serverData.getString("status");
                        lstTask.add(new Task(TaskName,TaskDescription,status,Taskid));
                    }
+                   if(lstTask.isEmpty())
+                       empty.setVisibility(View.VISIBLE);
 
                }
                catch (Exception e) {

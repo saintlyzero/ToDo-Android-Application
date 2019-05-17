@@ -33,6 +33,8 @@
         <EditText
             android:id="@+id/et_tDescription"
             android:hint="Task Description"
+            android:layout_height="wrap_content"
+            android:layout_width="150dp"
             android:inputType="text" />
 
     </TableRow>
