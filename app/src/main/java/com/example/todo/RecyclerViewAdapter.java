@@ -2,6 +2,7 @@ package com.example.todo;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -36,10 +37,10 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     private CheckBox cbstatus = null;
     private ImageView saveUserDataButton = null;
     private ImageView cancelUserDataButton = null;
-    final String UPDATE_TASK_URL = "http://192.168.31.122:80/todo/updateTask.php";
-    final String DELETE_TASK_URL = "http://192.168.31.122:80/todo/deleteTask.php";
-    final String greenColor = "#81c784";
-    final String whiteColor ="#ffffff";
+    final private String UPDATE_TASK_URL = "http://192.168.31.122:80/todo/updateTask.php";
+    final private String DELETE_TASK_URL = "http://192.168.31.122:80/todo/deleteTask.php";
+    final private String greenColor = "#81c784";
+    private final String whiteColor ="#ffffff";
 
     public RecyclerViewAdapter(Context mContext, List<Task> mData)
     {
@@ -71,9 +72,9 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             @Override
             public void onClick(View v) {
 
-                //TODO: DELETE button functionality
+                // DELETE button functionality
                 final String id = mData.get(position).getId();
-                deleteTask(id,position);
+                deleteTask(id,position,v);
 
             }
         });
@@ -128,9 +129,6 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                         if(cbstatus.isChecked())
                             TaskStatus = "1";
 
-
-                        //  Toast.makeText(homescreen.this,TaskName+"\n"+TaskDescription+"\n"+TaskStatus+"\n"+username,Toast.LENGTH_LONG).show();
-
                         if(TaskName.length()>=1)
                         {
                             final String finalTaskStatus = TaskStatus;
@@ -164,12 +162,6 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                                         }
                                     }
 
-                                    try {
-                                        //TODO: Display Message if User is properly registered
-
-                                    } catch (Exception e) {
-                                        Toast.makeText(mContext, e.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                    }
                                 }
                             },
                                     new Response.ErrorListener() {
@@ -179,8 +171,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                                         }
                                     }) {
                                 @Override
-                                protected Map<String, String> getParams() throws AuthFailureError {
-                                    Map<String, String> params = new HashMap<String, String>();
+                                protected Map<String, String> getParams() {
+                                    Map<String, String> params = new HashMap<>();
                                     params.put("taskId", id);
                                     params.put("taskdescription", TaskDescription);
                                     params.put("taskname", TaskName);
@@ -216,33 +208,28 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
         return mData.size();
     }
 
-    public void deleteTask(final String Taskid, final int position)
+    public void deleteTask(final String Taskid, final int position, final View v)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_TASK_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
-
-                try {
-                    //TODO: Display Snackbar
-                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
 
                     if(response.length()>3)
                     {
                         mData.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, mData.size());
+                        Snackbar.make(v, "Task Deleted", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
 
                     }
                     else
                     {
-
+                        Snackbar.make(v, "Unable to Delete Task", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
 
-
-                } catch (Exception e) {
-                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
             }
         },
                 new Response.ErrorListener() {
@@ -253,7 +240,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                 }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("taskId", Taskid);
                 return params;
             }
@@ -261,6 +248,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
         RequestQueue requestQueue = Volley.newRequestQueue(mContext);
         requestQueue.add(stringRequest);
     }
+
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
