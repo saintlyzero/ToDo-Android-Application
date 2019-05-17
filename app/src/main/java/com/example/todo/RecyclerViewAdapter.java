@@ -92,7 +92,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                 // Set title, icon, can not cancel properties.
                 alertDialogBuilder.setTitle("Add Task");
                 //alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
-                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setCancelable(true);
 
                 //initPopupViewControls();
                 LayoutInflater layoutInflater = LayoutInflater.from(mContext);

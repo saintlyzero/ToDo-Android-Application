@@ -3,6 +3,7 @@ package com.example.todo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,14 +47,14 @@ public class Register extends AppCompatActivity {
             window.setStatusBarColor(Color.parseColor("#e3e0cf"));
 
         }
-        b1 = (Button) findViewById(R.id.bt_register);
+        b1 = findViewById(R.id.bt_register);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                et_name = (EditText) findViewById(R.id.et_name);
-                et_usr = (EditText) findViewById(R.id.et_uname);
-                et_pass = (EditText) findViewById(R.id.et_pass);
-                et_cpass = (EditText) findViewById(R.id.et_confirmPass);
+            public void onClick(final View view) {
+                et_name = findViewById(R.id.et_name);
+                et_usr = findViewById(R.id.et_uname);
+                et_pass = findViewById(R.id.et_pass);
+                et_cpass = findViewById(R.id.et_confirmPass);
 
 
                 final String name, username, pass, cpass;
@@ -68,14 +69,11 @@ public class Register extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, SEND_URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(Register.this, response, Toast.LENGTH_LONG).show();
-
-                            try {
-                                //TODO: Display Message if User is properly registered
-
-                            } catch (Exception e) {
-                                Toast.makeText(Register.this, e.getMessage().toString(), Toast.LENGTH_LONG).show();
-                            }
+                            
+                           // Toast.makeText(Register.this, response, Toast.LENGTH_LONG).show();
+                            Snackbar.make(view, response, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                           
                         }
                     },
                             new Response.ErrorListener() {
@@ -85,8 +83,8 @@ public class Register extends AppCompatActivity {
                                 }
                             }) {
                         @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<String, String>();
+                        protected Map<String, String> getParams(){
+                            Map<String, String> params = new HashMap();
                             params.put("name", name);
                             params.put("username", username);
                             params.put("password", pass);

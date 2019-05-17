@@ -10,14 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,8 +33,7 @@ import java.util.Map;
 
 public class homescreen extends AppCompatActivity {
 
-    RecyclerView r;
-    FloatingActionButton fab;
+    FloatingActionButton fab; //Button to Add new task
 
     private View popupInputDialogView = null;
     private EditText taskName = null;
@@ -66,10 +63,7 @@ public class homescreen extends AppCompatActivity {
         final String username = bundle.getString("username");
 
         displayTask(GET_ALL_TASK_URL,username);
-
         initMainActivityControls();
-
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +74,7 @@ public class homescreen extends AppCompatActivity {
                 // Set title, icon, can not cancel properties.
                 alertDialogBuilder.setTitle("Add Task");
                 //alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
-                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setCancelable(true);
 
                 initPopupViewControls();
 
@@ -98,25 +92,26 @@ public class homescreen extends AppCompatActivity {
                         if(status.isChecked())
                             TaskStatus = "1";
 
-                      //  Toast.makeText(homescreen.this,TaskName+"\n"+TaskDescription+"\n"+TaskStatus+"\n"+username,Toast.LENGTH_LONG).show();
-
                         if(TaskName.length()>=1)
                         {
                             final String finalTaskStatus = TaskStatus;
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, ADD_TASK_URL, new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    //Toast.makeText(homescreen.this, response, Toast.LENGTH_LONG).show();
 
-                                    Snackbar.make(view, response, Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
+                                    if(response!=null){
+                                        lstTask.add(new Task(TaskName,TaskDescription, finalTaskStatus,response));
 
-                                    try {
-                                        //TODO: Display Message if User is properly registered
-
-                                    } catch (Exception e) {
-                                        Toast.makeText(homescreen.this, e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        Snackbar.make(view, "Added Task", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
                                     }
+                                    else
+                                    {
+                                        Snackbar.make(view, "Unable to add Task", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
+                                    }
+
+
                                 }
                             },
                                     new Response.ErrorListener() {
@@ -126,8 +121,8 @@ public class homescreen extends AppCompatActivity {
                                         }
                                     }) {
                                 @Override
-                                protected Map<String, String> getParams() throws AuthFailureError {
-                                    Map<String, String> params = new HashMap<String, String>();
+                                protected Map<String, String> getParams() {
+                                    Map<String, String> params = new HashMap<>();
                                     params.put("taskname", TaskName);
                                     params.put("taskdescription", TaskDescription);
                                     params.put("username", username);
@@ -164,11 +159,7 @@ public class homescreen extends AppCompatActivity {
         {
             fab = findViewById(R.id.fab);
         }
-        /*
-        if(userDataListView == null)
-        {
-            userDataListView = (ListView)findViewById(R.id.listview_user_data);
-        }*/
+
     }
 
     private void initPopupViewControls()
@@ -180,15 +171,12 @@ public class homescreen extends AppCompatActivity {
         popupInputDialogView = layoutInflater.inflate(R.layout.addtask__popup, null);
 
         // Get user input edittext and button ui controls in the popup dialog.
-        taskName = (EditText) popupInputDialogView.findViewById(R.id.et_tName);
-        taskDescription = (EditText) popupInputDialogView.findViewById(R.id.et_tDescription);
-        status = (CheckBox)popupInputDialogView.findViewById(R.id.cb_status) ;
-      //  emailEditText = (EditText) popupInputDialogView.findViewById(R.id.email);
+        taskName = popupInputDialogView.findViewById(R.id.et_tName);
+        taskDescription = popupInputDialogView.findViewById(R.id.et_tDescription);
+        status = popupInputDialogView.findViewById(R.id.cb_status) ;
         saveUserDataButton = popupInputDialogView.findViewById(R.id.bt_save);
         cancelUserDataButton = popupInputDialogView.findViewById(R.id.bt_cancel);
 
-        // Display values from the main activity list view in user input edittext.
-       // initEditTextUserDataInPopupDialog();
     }
 
    void displayTask(String GET_ALL_TASK_URL, final String username)
@@ -197,11 +185,7 @@ public class homescreen extends AppCompatActivity {
            @Override
            public void onResponse(String response) {
              //  Toast.makeText(homescreen.this, response, Toast.LENGTH_LONG).show();
-               System.out.println("xavi: "+response);
-
                try {
-
-                  // Toast.makeText(homescreen.this,"response: "+response,Toast.LENGTH_LONG).show();
 
                    JSONArray array = new JSONArray(response);
                    for (int i = 0; i < array.length(); i++)
@@ -211,11 +195,7 @@ public class homescreen extends AppCompatActivity {
                        String TaskName = serverData.getString("TaskName");
                        String TaskDescription = serverData.getString("TaskDescription");
                        String status = serverData.getString("status");
-
-                       // System.out.println(Taskid+"\n"+TaskName+"\n"+TaskDescription+"\n"+status+"\n");
-
                        lstTask.add(new Task(TaskName,TaskDescription,status,Taskid));
-
                    }
 
                }
@@ -223,7 +203,7 @@ public class homescreen extends AppCompatActivity {
                    Toast.makeText(homescreen.this, e.getMessage(), Toast.LENGTH_LONG).show();
                }
 
-               RecyclerView myrv = (RecyclerView) findViewById(R.id.recyclerview_id1);
+               RecyclerView myrv = findViewById(R.id.recyclerview_id1);
                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(homescreen.this,lstTask);
                myrv.setLayoutManager(new GridLayoutManager(homescreen.this,2));
                myrv.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
@@ -239,7 +219,7 @@ public class homescreen extends AppCompatActivity {
                }) {
            @Override
            protected Map<String, String> getParams() {
-               Map<String, String> params = new HashMap<String, String>();
+               Map<String, String> params = new HashMap();
                params.put("username", username);
                return params;
            }

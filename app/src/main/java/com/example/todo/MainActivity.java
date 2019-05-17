@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("restored 2", restoredText);
 
-        b1 = (Button) findViewById(R.id.b_login);
-        et_usr = (EditText) findViewById(R.id.et_unme);
-        et_pass = (EditText) findViewById(R.id.et_upass);
-        t1 = (TextView) findViewById(R.id.textView);
+        b1 = findViewById(R.id.b_login);
+        et_usr =  findViewById(R.id.et_unme);
+        et_pass = findViewById(R.id.et_upass);
+        t1 =  findViewById(R.id.textView);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }) {
                         @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<String, String>();
+                        protected Map<String, String> getParams(){
+                            Map<String, String> params = new HashMap();
                             params.put("username", username);
                             params.put("password", password);
 
