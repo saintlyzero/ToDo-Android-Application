@@ -1,0 +1,87 @@
+<TableLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="end"
+            android:text="Name :" />
+
+        <EditText
+            android:id="@+id/et_tName"
+            android:hint="Task Name"
+            android:inputType="text" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="end"
+            android:text="Description :" />
+
+        <EditText
+            android:id="@+id/et_tDescription"
+            android:hint="Task Description"
+            android:inputType="text" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:gravity="end"
+            android:text="Completed : " />
+
+        <CheckBox
+            android:id="@+id/cb_status"
+            />
+
+
+
+
+
+    </TableRow>
+
+    <TableRow android:gravity="center_horizontal"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/bt_cancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="Cancel"
+            android:textSize="20dp"
+            android:gravity="center_horizontal"
+            android:src="@drawable/wrong"
+            android:layout_marginBottom="20dp"/>
+
+
+        <ImageView
+            android:id="@+id/bt_save"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="Save User Data"
+            android:textSize="20dp"
+            android:src="@drawable/correct"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="20dp"/>
+
+    </TableRow>
+
+</TableLayout>
