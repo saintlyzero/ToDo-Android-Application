@@ -2,8 +2,6 @@ package com.example.todo;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +37,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     private ImageView saveUserDataButton = null;
     private ImageView cancelUserDataButton = null;
     final String UPDATE_TASK_URL = "http://192.168.31.122:80/todo/updateTask.php";
+    final String DELETE_TASK_URL = "http://192.168.31.122:80/todo/deleteTask.php";
     final String greenColor = "#81c784";
     final String whiteColor ="#ffffff";
 
@@ -73,6 +72,9 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             public void onClick(View v) {
 
                 //TODO: DELETE button functionality
+                final String id = mData.get(position).getId();
+                deleteTask(id,position);
+
             }
         });
         holder.img_edit.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +85,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                 String desc = mData.get(position).getDescription();
                 String status = mData.get(position).getStatus();
 
-                Toast.makeText(mContext, name+"\n"+desc, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(mContext, name+"\n"+desc, Toast.LENGTH_LONG).show();
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
                 // Set title, icon, can not cancel properties.
@@ -212,6 +214,52 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     public int getItemCount() {
 
         return mData.size();
+    }
+
+    public void deleteTask(final String Taskid, final int position)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_TASK_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
+
+                try {
+                    //TODO: Display Snackbar
+                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
+
+                    if(response.length()>3)
+                    {
+                        mData.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mData.size());
+
+                    }
+                    else
+                    {
+
+                    }
+
+
+                } catch (Exception e) {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("taskId", Taskid);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        requestQueue.add(stringRequest);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
