@@ -2,7 +2,7 @@
 A simple ToDo Android Application using RecyclerView
 Used PHP and and MySql in Backend
 
-Screenchots:
+Screenshots:
 
 ![image](https://user-images.githubusercontent.com/17126310/57970247-a749c700-799c-11e9-9dbd-3310d59d5d44.png)  ![image](https://user-images.githubusercontent.com/17126310/57970268-ee37bc80-799c-11e9-91ec-f37355d4536a.png)
 
