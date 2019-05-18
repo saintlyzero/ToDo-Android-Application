@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -47,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#c5d5cb")));
-        actionBar.setTitle(Html.fromHtml("<font color='#000000'>Todo App</font>"));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00BCD4")));
+        actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Todo App</font>"));
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.parseColor("#c5d5cb"));
+            window.setStatusBarColor(Color.parseColor("#00ACC1"));
         }
 
         sharedPreferences = getSharedPreferences("MyPref", MODE_PRIVATE);

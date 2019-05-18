@@ -39,8 +39,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     private ImageView cancelUserDataButton = null;
     final private String UPDATE_TASK_URL = "http://192.168.31.122:80/todo/updateTask.php";
     final private String DELETE_TASK_URL = "http://192.168.31.122:80/todo/deleteTask.php";
-    final private String greenColor = "#81c784";
-    private final String whiteColor ="#ffffff";
+    final private String greenColor = "#adebad";
+    private final String yellowColor ="#fae596";
 
     public RecyclerViewAdapter(Context mContext, List<Task> mData)
     {
@@ -65,8 +65,9 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
         holder.tv_description.setText(mData.get(position).getDescription());
         if((mData.get(position).getStatus().equals("1")))
             holder.cardView.setBackgroundColor(Color.parseColor(greenColor));
+        else
+            holder.cardView.setBackgroundColor(Color.parseColor(yellowColor));
 
-        //TODO : Make popup layout responsive similar to card layout
 
         holder.img_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +91,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
                 // Set title, icon, can not cancel properties.
-                alertDialogBuilder.setTitle("Add Task");
-                //alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+                alertDialogBuilder.setTitle("Edit Task");
+                alertDialogBuilder.setIcon(R.drawable.doc);
                 alertDialogBuilder.setCancelable(true);
 
                 //initPopupViewControls();
@@ -150,7 +151,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                                     else
                                     {
                                         holder.tv_status.setText("0");
-                                        holder.cardView.setBackgroundColor(Color.parseColor(whiteColor));
+                                        holder.cardView.setBackgroundColor(Color.parseColor(yellowColor));
                                     }
 
                                     Task temp = new Task(TaskName,TaskDescription,finalTaskStatus,id);

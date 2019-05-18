@@ -3,20 +3,26 @@ package com.example.todo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,6 +73,17 @@ public class homescreen extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         final String username = bundle.getString("username");
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#269bd8")));
+        actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>  Welcome " + username + "</font>"));
+
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#218fcf"));
+
+
+
         RecyclerView myrv = findViewById(R.id.recyclerview_id1);
         final RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(homescreen.this,lstTask);
         myrv.setLayoutManager(new GridLayoutManager(homescreen.this,2));
@@ -88,7 +105,7 @@ public class homescreen extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(homescreen.this);
                 // Set title, icon, can not cancel properties.
                 alertDialogBuilder.setTitle("Add Task");
-                //alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+                alertDialogBuilder.setIcon(R.drawable.doc);
                 alertDialogBuilder.setCancelable(true);
 
                 initPopupViewControls();

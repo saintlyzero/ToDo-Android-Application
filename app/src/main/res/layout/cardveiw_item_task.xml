@@ -3,9 +3,13 @@
     android:layout_width="150dp"
     android:layout_height="wrap_content"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_margin="5dp"
     android:id="@+id/cardview_id"
-    cardview:cardCornerRadius="4dp">
+    cardview:cardCornerRadius="4dp"
+    card_view:cardElevation="10dp"
+    card_view:cardUseCompatPadding="true"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,24 +25,24 @@
             android:text="Get Vegetables"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
+            android:background="#e63b3a36"
+            android:textColor="#e7ffffff"
+            android:padding="5dp"
             android:textSize="18sp"/>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="#c0c0c0"/>
 
         <TextView
             android:id="@+id/cv_taskDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="#c5000000"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="7dp"
             android:text="Get Cucumber, Paneer, tomatoes and Broccoli" />
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +57,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
 
-                android:src="@drawable/editgrey"
+                android:src="@drawable/edit"
                 android:layout_alignParentBottom="true"/>
 
             <ImageView
@@ -62,7 +66,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="50dp"
 
-                android:src="@drawable/deletegrey"
+                android:src="@drawable/delete"
                 android:layout_alignParentBottom="true"
                 />
 

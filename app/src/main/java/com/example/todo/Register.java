@@ -62,40 +62,48 @@ public class Register extends AppCompatActivity {
                 username = et_usr.getText().toString();
                 pass = et_pass.getText().toString();
                 cpass = et_cpass.getText().toString();
-                if (pass.equals(cpass)) // Password & Confirm password match
+                if (name.length() > 1 && username.length() > 1 && pass.length() > 1)
                 {
 
+                    if (pass.equals(cpass)) // Password & Confirm password match
+                    {
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, SEND_URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            
-                           // Toast.makeText(Register.this, response, Toast.LENGTH_LONG).show();
-                            Snackbar.make(view, response, Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                           
-                        }
-                    },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(Register.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }) {
-                        @Override
-                        protected Map<String, String> getParams(){
-                            Map<String, String> params = new HashMap();
-                            params.put("name", name);
-                            params.put("username", username);
-                            params.put("password", pass);
-                            return params;
-                        }
-                    };
-                    RequestQueue requestQueue = Volley.newRequestQueue(Register.this);
-                    requestQueue.add(stringRequest);
 
-                } else {
-                    Toast.makeText(Register.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, SEND_URL, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                // Toast.makeText(Register.this, response, Toast.LENGTH_LONG).show();
+                                Snackbar.make(view, response, Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+
+                            }
+                        },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(Register.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap();
+                                params.put("name", name);
+                                params.put("username", username);
+                                params.put("password", pass);
+                                return params;
+                            }
+                        };
+                        RequestQueue requestQueue = Volley.newRequestQueue(Register.this);
+                        requestQueue.add(stringRequest);
+
+                    } else {
+                        Toast.makeText(Register.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                    }
+            }
+            else
+                {
+                    Toast.makeText(Register.this, "Every filed should've at least 2 characters", Toast.LENGTH_SHORT).show();
                 }
 
             }

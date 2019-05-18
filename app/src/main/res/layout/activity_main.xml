@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/colorPrimary"
+    android:background="#00BCD4"
     >
 
     <ImageView
@@ -52,7 +52,7 @@
         android:layout_below="@+id/et_upass"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:background="#3fb0ac"
+        android:background="#8BC34A"
         android:text="Login"
         android:textColor="#ffffff" />
 
