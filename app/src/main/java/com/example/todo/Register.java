@@ -30,7 +30,7 @@ public class Register extends AppCompatActivity {
 
     Button b1;
     EditText et_name, et_usr, et_pass, et_cpass;
-    final String SEND_URL = "http://192.168.31.122:80/todo/register.php";
+    final String SEND_URL = "https://mytodoappserver.000webhostapp.com/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

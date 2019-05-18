@@ -37,8 +37,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     private CheckBox cbstatus = null;
     private ImageView saveUserDataButton = null;
     private ImageView cancelUserDataButton = null;
-    final private String UPDATE_TASK_URL = "http://192.168.31.122:80/todo/updateTask.php";
-    final private String DELETE_TASK_URL = "http://192.168.31.122:80/todo/deleteTask.php";
+    final private String UPDATE_TASK_URL = "https://mytodoappserver.000webhostapp.com/updateTask.php";
+    final private String DELETE_TASK_URL = "https://mytodoappserver.000webhostapp.com/deleteTask.php";
     final private String greenColor = "#adebad";
     private final String yellowColor ="#fae596";
 

@@ -61,8 +61,8 @@ public class homescreen extends AppCompatActivity {
 
     private ImageView empty;
 
-    final String ADD_TASK_URL = "http://192.168.31.122:80/todo/addTask.php";
-    final String GET_ALL_TASK_URL = "http://192.168.31.122:80/todo/getTask.php";
+    final String ADD_TASK_URL = "https://mytodoappserver.000webhostapp.com/addTask.php";
+    final String GET_ALL_TASK_URL = "https://mytodoappserver.000webhostapp.com/getTask.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     EditText et_usr, et_pass;
     SharedPreferences sharedPreferences;
 
-    final String SEND_URL = "http://192.168.31.122:80/todo/login.php";
+    final String SEND_URL = "https://mytodoappserver.000webhostapp.com/login.php";
 
 
     @Override
