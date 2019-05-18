@@ -1,6 +1,7 @@
 # ToDo-Android-Application
 A simple ToDo Android Application using RecyclerView
-Used PHP and and MySql in Backend
+
+
 
 Screenshots:
 
